@@ -1,0 +1,13 @@
+{
+  "environment": "dev",
+  "database_name": "automobile_analytics_dev",
+  "source_path": "/Volumes/workspace/default/dwa/Auto Sales data.csv",
+  "cluster_config": {
+    "spark_version": "13.3.x-scala2.12",
+    "node_type_id": "Standard_DS3_v2",
+    "num_workers": 1
+  },
+  "notifications": {
+    "on_failure": ["dev-team@company.com"]
+  }
+}
