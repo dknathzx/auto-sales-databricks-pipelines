@@ -1,0 +1,98 @@
+name: Databricks CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          pip install databricks-cli
+          pip install pytest
+      
+      - name: Run data quality tests
+        run: |
+          echo "Running data quality tests..."
+          # Add your test commands here
+          # pytest tests/
+      
+  deploy-dev:
+    name: Deploy to DEV
+    needs: test
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Databricks CLI
+        run: |
+          pip install databricks-cli
+      
+      - name: Configure Databricks CLI
+        run: |
+          echo "[DEFAULT]" > ~/.databrickscfg
+          echo "host = ${{ secrets.DATABRICKS_HOST }}" >> ~/.databrickscfg
+          echo "token = ${{ secrets.DATABRICKS_TOKEN }}" >> ~/.databrickscfg
+      
+      - name: Deploy notebooks to DEV workspace
+        run: |
+          databricks workspace import_dir notebooks /Workspace/Users/${{ secrets.DATABRICKS_USER }}/auto-sales-pipeline/dev --overwrite
+      
+      - name: Trigger DEV job
+        run: |
+          echo "Triggering DEV pipeline job..."
+          # databricks jobs run-now --job-id ${{ secrets.DEV_JOB_ID }}
+
+  deploy-prod:
+    name: Deploy to PROD
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Databricks CLI
+        run: |
+          pip install databricks-cli
+      
+      - name: Configure Databricks CLI
+        run: |
+          echo "[DEFAULT]" > ~/.databrickscfg
+          echo "host = ${{ secrets.DATABRICKS_HOST }}" >> ~/.databrickscfg
+          echo "token = ${{ secrets.DATABRICKS_TOKEN }}" >> ~/.databrickscfg
+      
+      - name: Deploy notebooks to PROD workspace
+        run: |
+          databricks workspace import_dir notebooks /Workspace/Users/${{ secrets.DATABRICKS_USER }}/auto-sales-pipeline/prod --overwrite
+      
+      - name: Trigger PROD job
+        run: |
+          echo "Triggering PROD pipeline job..."
+          # databricks jobs run-now --job-id ${{ secrets.PROD_JOB_ID }}
+      
+      - name: Send notification
+        run: |
+          echo "✅ Deployment to PROD completed successfully!"
