@@ -1,0 +1,213 @@
+# 📤 What to Upload to Your GitHub Repository
+
+## Quick Answer: Upload These Files
+
+Your GitHub repository needs these files and folders:
+
+```
+auto-sales-databricks-pipeline/          ← Your repo name
+│
+├── README.md                             ← Project documentation
+├── .gitignore                            ← What NOT to commit
+│
+├── .github/
+│   └── workflows/
+│       └── databricks-cicd.yml           ← CI/CD automation
+│
+├── notebooks/                            ← Your Databricks notebooks
+│   ├── 01_bronze_ingestion.py
+│   ├── 02_silver_cleaning.py
+│   └── 03_gold_analytics.py
+│
+├── config/                               ← Environment settings
+│   ├── dev.json
+│   └── prod.json
+│
+└── tests/                                ← Automated tests
+    └── test_data_quality.py
+```
+
+---
+
+## 🎯 Step-by-Step: How to Add Files
+
+### Method 1: Using GitHub Web Interface (EASIEST)
+
+1. **Go to your repository** on github.com
+   - Should be: `github.com/YOUR-USERNAME/auto-sales-databricks-pipeline`
+
+2. **Click "Add file" → "Create new file"**
+
+3. **Create each file one by one:**
+
+#### File 1: Create `.gitignore`
+   - In the "Name your file" box, type: `.gitignore`
+   - Copy-paste the content from the `.gitignore` file I created
+   - Click "Commit new file"
+
+#### File 2: Update `README.md` (already exists)
+   - Click on `README.md` in your repo
+   - Click the pencil icon (Edit)
+   - Replace content with the README I created
+   - Click "Commit changes"
+
+#### File 3: Create the workflow folder
+   - Click "Add file" → "Create new file"
+   - In the name box, type: `.github/workflows/databricks-cicd.yml`
+     (GitHub auto-creates the folders!)
+   - Paste the workflow content
+   - Click "Commit new file"
+
+#### File 4-6: Create config files
+   - Click "Add file" → "Create new file"
+   - Type: `config/dev.json` (creates folder + file)
+   - Paste content
+   - Repeat for `config/prod.json`
+
+#### File 7: Create test file
+   - Click "Add file" → "Create new file"
+   - Type: `tests/test_data_quality.py`
+   - Paste content
+
+#### File 8-10: Upload your notebooks
+   - Click "Add file" → "Upload files"
+   - Drag your 3 working notebooks from Databricks
+   - Or manually create `notebooks/01_bronze_ingestion.py` etc.
+
+---
+
+### Method 2: Using GitHub Codespaces (BETTER)
+
+If you're already in Codespaces:
+
+1. **Create the folder structure:**
+```bash
+# In Codespaces terminal
+mkdir -p .github/workflows
+mkdir -p notebooks
+mkdir -p config
+mkdir -p tests
+```
+
+2. **Create each file:**
+```bash
+# Create .gitignore
+touch .gitignore
+
+# Create workflow
+touch .github/workflows/databricks-cicd.yml
+
+# Create configs
+touch config/dev.json
+touch config/prod.json
+
+# Create test
+touch tests/test_data_quality.py
+```
+
+3. **Edit each file:**
+   - Click on each file in the left sidebar
+   - Copy-paste the content I provided
+   - Save (Ctrl+S or Cmd+S)
+
+4. **Commit and push:**
+```bash
+git add .
+git commit -m "Initial CI/CD setup"
+git push origin main
+```
+
+---
+
+## 📋 Exact Content for Each File
+
+I've created all these files for you! Let me share them now so you can copy-paste:
+
+1. ✅ `README.md` - Already created above
+2. ✅ `.gitignore` - Already created above
+3. ✅ `.github/workflows/databricks-cicd.yml` - Already created above
+4. ✅ `config/dev.json` - Already created above
+5. ✅ `config/prod.json` - Already created above
+6. ✅ `tests/test_data_quality.py` - Already created above
+
+---
+
+## 🎯 What About Your Databricks Notebooks?
+
+You need to add your 3 working notebooks to the `notebooks/` folder:
+
+### Option A: Download from Databricks, then upload to GitHub
+
+1. In Databricks, open each notebook
+2. File → Export → Source File (.py)
+3. Download all 3 notebooks
+4. In GitHub, go to `notebooks/` folder
+5. Click "Add file" → "Upload files"
+6. Upload all 3 notebooks
+
+### Option B: Copy-paste the code
+
+1. In GitHub, create `notebooks/01_bronze_ingestion.py`
+2. Copy ALL the code from your Databricks Bronze notebook
+3. Paste it into the GitHub file
+4. Commit
+5. Repeat for Silver and Gold notebooks
+
+---
+
+## ✅ Final Check
+
+After uploading, your GitHub repository should look like this:
+
+```
+auto-sales-databricks-pipeline/
+├── README.md                        ✅
+├── .gitignore                       ✅
+├── .github/
+│   └── workflows/
+│       └── databricks-cicd.yml      ✅
+├── notebooks/
+│   ├── 01_bronze_ingestion.py       ✅
+│   ├── 02_silver_cleaning.py        ✅
+│   └── 03_gold_analytics.py         ✅
+├── config/
+│   ├── dev.json                     ✅
+│   └── prod.json                    ✅
+└── tests/
+    └── test_data_quality.py         ✅
+```
+
+---
+
+## 🚀 Next Step After Upload
+
+Once all files are uploaded:
+
+1. **Add GitHub Secrets:**
+   - Go to repository Settings → Secrets and variables → Actions
+   - Click "New repository secret"
+   - Add:
+     - Name: `DATABRICKS_HOST`
+     - Value: Your Databricks URL (e.g., `https://dbc-abc123.cloud.databricks.com`)
+   - Add another:
+     - Name: `DATABRICKS_TOKEN`
+     - Value: Your Databricks token (from User Settings → Developer → Access Tokens)
+
+2. **Test the CI/CD:**
+   - Make a small change to README.md
+   - Commit the change
+   - Go to "Actions" tab
+   - Watch your CI/CD pipeline run! 🎉
+
+---
+
+## 🆘 Need Help?
+
+**Can't find a file I mentioned?** 
+→ Look in the files I created above - all content is there!
+
+**Codespaces terminal not working?**
+→ Use the GitHub web interface instead (Method 1)
+
+**Not sure about notebook content?**
+→ Use your working Bronze/Silver/Gold notebooks from Databricks
