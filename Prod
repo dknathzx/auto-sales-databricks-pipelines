@@ -1,0 +1,21 @@
+{
+  "environment": "prod",
+  "database_name": "automobile_analytics",
+  "source_path": "/Volumes/workspace/default/dwa/Auto Sales data.csv",
+  "cluster_config": {
+    "spark_version": "13.3.x-scala2.12",
+    "node_type_id": "Standard_DS3_v2",
+    "autoscale": {
+      "min_workers": 2,
+      "max_workers": 4
+    }
+  },
+  "notifications": {
+    "on_success": ["leadership@company.com"],
+    "on_failure": ["data-engineering@company.com", "oncall@company.com"]
+  },
+  "schedule": {
+    "quartz_cron_expression": "0 2 * * *",
+    "timezone_id": "UTC"
+  }
+}
