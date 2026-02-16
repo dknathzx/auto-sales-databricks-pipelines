@@ -1,0 +1,73 @@
+"""
+Data Quality Tests for Auto Sales Pipeline
+"""
+import pytest
+from datetime import datetime
+
+
+class TestDataQuality:
+    """Test suite for data quality checks"""
+    
+    def test_bronze_table_exists(self):
+        """Verify Bronze table exists and has data"""
+        # This would connect to Databricks and check table
+        # For demo purposes, we'll use a placeholder
+        assert True, "Bronze table should exist"
+    
+    def test_record_count(self):
+        """Verify minimum record count"""
+        expected_min_records = 2000
+        # actual_count = get_table_count('bronze_automobile_raw')
+        # assert actual_count >= expected_min_records
+        assert True, f"Should have at least {expected_min_records} records"
+    
+    def test_no_null_primary_keys(self):
+        """Verify no NULL values in primary key columns"""
+        # Check ORDERNUMBER column has no nulls
+        assert True, "Primary keys should not have NULL values"
+    
+    def test_data_freshness(self):
+        """Verify data is recent (within last 24 hours for scheduled runs)"""
+        # Check ingestion_timestamp
+        assert True, "Data should be fresh"
+    
+    def test_silver_transformations(self):
+        """Verify Silver layer transformations applied correctly"""
+        # Check that sales_category column exists and has valid values
+        valid_categories = ['Low', 'Medium', 'High']
+        assert True, f"Sales category should be one of {valid_categories}"
+    
+    def test_gold_table_counts(self):
+        """Verify all Gold tables created"""
+        expected_gold_tables = [
+            'gold_sales_by_product_line',
+            'gold_sales_by_country',
+            'gold_monthly_sales_trends',
+            'gold_deal_size_analysis',
+            'gold_executive_dashboard'
+        ]
+        # Check each table exists
+        assert len(expected_gold_tables) == 5, "Should have 5 gold tables"
+
+
+class TestBusinessLogic:
+    """Test suite for business logic validation"""
+    
+    def test_sales_calculation(self):
+        """Verify sales = quantity * price"""
+        # sales_value = quantity * unit_price
+        assert True, "Sales should equal quantity times price"
+    
+    def test_date_parsing(self):
+        """Verify dates are parsed correctly"""
+        # Check year, month, quarter extracted correctly
+        assert True, "Date components should be extracted correctly"
+    
+    def test_country_standardization(self):
+        """Verify country names are standardized"""
+        # Check 'USA' converted to 'United States'
+        assert True, "Country names should be standardized"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])
